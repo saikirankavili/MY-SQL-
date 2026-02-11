@@ -1,2 +1,224 @@
 # MY-SQL-
 SQL scripts showcasing skills in data extraction, transformation, and reporting.   Designed to support business decision-making through clean and efficient queries.
+
+                                                     ## INTRODUCTION TO SQL
+                                                      
+#creation
+create table player( 
+name varchar(68),
+age integer,
+score integer,
+centuries integer);
+
+#inserion 
+INSERT INTO player (name, age, score, centuries)
+VALUES
+("sai",21,86,16),
+("krishna",21,68,19);
+
+#selecting entire columns
+select * from player;
+
+#selecting specific columns
+select name, age from player;
+
+#selecting specific rows
+select * from player
+where name="krishna";
+
+#update
+#updating all rows
+SET SQL_SAFE_UPDATES = 0;  ###### to remove from safe update mode 
+SET SQL_SAFE_UPDATES = 1;  ###### to move to safe update mode
+
+update player
+set score = 69
+where name="krishna";
+
+select * from player;
+
+#delete
+###delete all rows
+delete from player; ##(it will delete existing records from a table)
+
+###delete specific row  
+delete from player
+where name='sai';  ##(it will delete specific data from existing table)
+
+# Drop Table
+DROP TABLE player; ##( drop clause is used to delete a table from a data base)
+
+#  Adding data into data  ( Alter clause is used to add, delete, or modify the columns in a existing table)
+select *from player;
+ALTER TABLE player
+ADD Jersy_num int;
+
+### get data from starting steps and insert in table in order to proceed furthur
+## then read the table using (select * from palyer command)
+select *from player;
+
+# Now Updating palyer info in table
+## Method-1 (updating values separately)
+select*from player;
+update player
+set Jersy_num=16
+where name="sai";
+
+select * from player;
+update player
+set Jersy_num=19
+where name="krishna";
+
+## Method-2 (updating values in a table using single query)
+UPDATE player
+SET Jersy_num = CASE 
+    WHEN name = 'Sai' THEN 16
+    WHEN name = 'krishna' THEN 18
+END
+WHERE name IN ('Sai', 'krishna');
+
+## Rename Column
+select * from player;
+Alter table player
+rename column Jersy_num to jersy_number;
+
+## drop clause is used to delete a table from the data base
+drop table player; 
+## later check it with using
+select *from player;
+
+                                                        ### Quering with SQL
+                                                             
+							
+# step 1 :- Create a table
+create table products(
+Product_Name varchar(100),
+Category varchar(100),
+Price int,
+Brand varchar(100),
+rating float);
+
+#step 2 :- Insert detils into the table
+insert into products(Product_Name,Category,Price,Brand,Rating)
+values
+("chocolate_cake","Bakery_food",35,"yummiesss",4.2),
+("strawbery_cake","Bakery_food",28,"nostic",4.1),
+("Puff","fast_food",20,"yummiesss",3.8),
+("laddu","sweet",15,"yummiess",4.7),
+("dark_chocolates","Chocolates",59,"nostic",4.4),
+("Blue_T_shirt","Clothes",219,"Rainbow",2.9),
+("Green_Scurt","clothes",399,"u&me",3.6),
+("brown_shorts","clothes",179,"dezato",3.8),
+("blue_jeans","clothes",439,"rainbow",4.2),
+("mango_juice","cool_drink",39,"maaza",4.5),
+("sprite","cool_drink",34,"coco_cola",3.9);
+
+##note:- to see or to read or to retrive data from table use this query
+select *from products;
+
+### step 3 :- to get the particular items from the table use "where" keyword
+select *from products
+where category = "clothes";    #(can filter based on our requirement like :- cool_drink,clothes etc..)
+
+### step 4 :- filter the products based on rating
+
+select * from products
+where rating >3.5
+and category = "clothes";
+
+### string operations ###
+									
+## using like clause ( like operator is used in sql to perform queries . 
+# This operator is especially used in where clause to retrive all the rows that match the given pattern.)
+
+select *from products
+where category like "fast_food";   # it retrive the results if there is exactly matched data in table or database.
+
+select *from player
+where name like "krishna";
+
+select *from products 
+where product_name like "%chocolates%";  # it retrives the products whose name starts and ends with chocolates
+
+### logical operations ###
+# { AND< OR <NOT }
+# AND - used to fetch rows that satisfy 2 or more conditions
+# or - used to fetch rows that satisfy at least one of the given condition
+# NOT - used to negate a condition in the where clause
+
+# step 1:-  Get all the details of products whose category is clothes and price less than equal to 400 from products table
+select * from products
+where category = "clothes"
+AND price <=400;
+
+# step 2:- Ignore all the products with name containing "cake" from the list of products.
+select * from products
+where NOT product_name like "%cake";
+
+# step 3:- fetch the products that belong brand yummies and rating greater then 4 or the products from u&me
+select * from products
+where (Brand = "yummies" AND rating>4)
+or brand="u&me";
+
+### In & Between operators ###
+# In operator :- retrives the corresponding rows from the table if the value of column is present in the given values.
+# step 1 :- get the details of all the products from products table, where the brand is either "rainbow", "u&me","nostic"
+select *from products
+where brand in ("rainbow","u&me","nostic");
+
+# Between operator :- retrives all the rows from the products table that have column value present between the given range.
+#step 1 :- find the products from the category food with price ranging from 100 to 150
+select *from products
+where category like "%food%" 
+AND price between 20 AND 50;
+
+# order by :- we use order by clause to order row. by default order by sorts the data in ascending order.
+# step 1 :- get all products in order of lowest price and highest rating in "rainbow" brand
+select product_name,price,rating from products
+where brand = "rainbow"
+order by price asc, rating desc;
+ 
+ # {{{pagination}}} using pagination, only a chunk of the data can be sent to user based on their request
+ # the next data can be fetched only when the user asks for it
+ ### we use "LIMIT" and  "OFFSET" clauses to select a chunk of results.
+ ## LIMIT :- limit clause is used to specify the no.of rows, we would like to have in result.
+ #example :- 
+ select * from products 
+ where category like "%clothes%"
+ order by price asc,
+ rating desc
+ limit 3;  #(change the limit values to see changes in table)
+ 
+ # offset :- offset clause is used to specify the position from where the chunk of the results are to be selected 
+#example :- get all the details of top 5 rated products from products starting from 6th row
+select * from products;
+order by rating desc
+limit 5
+offset 6;
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
