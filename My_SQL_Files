@@ -35,6 +35,7 @@ update player
 set score = 69
 where name="krishna";
 
+To see updated table use this command
 select * from player;
 
 #delete
@@ -46,7 +47,7 @@ delete from player
 where name='sai';  ##(it will delete specific data from existing table)
 
 # Drop Table
-DROP TABLE player; ##( drop clause is used to delete a table from a data base)
+DROP TABLE player; ##( drop clause is used to delete a table from a data base, Once table is droped it will not show the table in the data base)
 
 #  Adding data into data  ( Alter clause is used to add, delete, or modify the columns in a existing table)
 select *from player;
@@ -118,7 +119,7 @@ select *from products;
 
 ### step 3 :- to get the particular items from the table use "where" keyword
 select *from products
-where category = "clothes";    #(can filter based on our requirement like :- cool_drink,clothes etc..)
+where category = "clothes";    #(It can filter based on our requirement like :- cool_drink,clothes etc..)
 
 ### step 4 :- filter the products based on rating
 
@@ -133,9 +134,6 @@ and category = "clothes";
 
 select *from products
 where category like "fast_food";   # it retrive the results if there is exactly matched data in table or database.
-
-select *from player
-where name like "krishna";
 
 select *from products 
 where product_name like "%chocolates%";  # it retrives the products whose name starts and ends with chocolates
@@ -182,7 +180,8 @@ order by price asc, rating desc;
  # the next data can be fetched only when the user asks for it
  ### we use "LIMIT" and  "OFFSET" clauses to select a chunk of results.
  ## LIMIT :- limit clause is used to specify the no.of rows, we would like to have in result.
- #example :- 
+
+#example :- 
  select * from products 
  where category like "%clothes%"
  order by price asc,
